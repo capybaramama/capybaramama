@@ -194,7 +194,7 @@ function calculateKIN() {
   const diffTime = targetDate - baseDate;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  let kin = (diffDays % 260 + 260) % 260 + 1;
+  let kin = ((diffDays + 62) % 260 + 260) % 260 + 1;
 
   const tone = ((kin - 1) % 13) + 1;
 
