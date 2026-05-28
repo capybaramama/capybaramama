@@ -1,0 +1,217 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>わたしのKIN診断</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", sans-serif;
+      background: linear-gradient(to bottom, #fdfaf7, #f5eef8);
+      color: #6d5c74;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      color: #7d6b87;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 35px;
+      color: #8d7d95;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(180,160,190,0.15);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #e6ddeb;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      box-sizing: border-box;
+      background: #fffdfd;
+      color: #6d5c74;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(to right, #d8c3e8, #cdb6df);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(190,160,210,0.3);
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .result {
+      margin-top: 28px;
+      display: none;
+    }
+
+    .result-box {
+      background: rgba(255,255,255,0.75);
+      border-radius: 22px;
+      padding: 22px;
+      margin-top: 20px;
+      box-shadow: 0 10px 25px rgba(180,160,190,0.12);
+    }
+
+    .label {
+      font-size: 0.85rem;
+      color: #9c8aa7;
+      margin-bottom: 6px;
+    }
+
+    .value {
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+    }
+
+    .message {
+      margin-top: 20px;
+      text-align: center;
+      line-height: 1.8;
+      color: #7f6c87;
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: #aa99b4;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1 class="title">わたしのKIN診断</h1>
+
+  <p class="subtitle">
+    生年月日から、<br>
+    あなたのKINナンバーを診断します。
+  </p>
+
+  <div class="card">
+
+    <input type="date" id="birthdate">
+
+    <button onclick="calculateKIN()">
+      診断する
+    </button>
+
+  </div>
+
+  <div class="result" id="result">
+
+    <div class="result-box">
+
+      <div class="label">KINナンバー</div>
+      <div class="value" id="kin"></div>
+
+      <div class="label">太陽の紋章</div>
+      <div class="value" id="seal"></div>
+
+      <div class="label">ウェイブスペル</div>
+      <div class="value" id="wave"></div>
+
+      <div class="label">音</div>
+      <div class="value" id="tone"></div>
+
+      <div class="message">
+        あなたは、あなたらしく輝いていい。<br>
+        宇宙はいつも、あなたを応援しています。
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    © わたしのKIN診断
+  </div>
+
+</div>
+
+<script>
+
+const seals = [
+  "赤い龍","白い風","青い夜","黄色い種","赤い蛇",
+  "白い世界の橋渡し","青い手","黄色い星","赤い月","白い犬",
+  "青い猿","黄色い人","赤い空歩く人","白い魔法使い","青い鷲",
+  "黄色い戦士","赤い地球","白い鏡","青い嵐","黄色い太陽"
+];
+
+function calculateKIN() {
+
+  const birthdate = document.getElementById("birthdate").value;
+
+  if (!birthdate) {
+    alert("生年月日を入力してください");
+    return;
+  }
+
+  const baseDate = new Date("1984-02-02");
+  const targetDate = new Date(birthdate);
+
+  const diffTime = targetDate - baseDate;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  let kin = (diffDays % 260 + 260) % 260 + 1;
+
+  const tone = ((kin - 1) % 13) + 1;
+
+  const seal = seals[(kin - 1) % 20];
+
+  const wave = seals[Math.floor((kin - 1) / 13) % 20];
+
+  document.getElementById("kin").innerText = "KIN " + kin;
+  document.getElementById("seal").innerText = seal;
+  document.getElementById("wave").innerText = wave;
+  document.getElementById("tone").innerText = "音 " + tone;
+
+  document.getElementById("result").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
+```
